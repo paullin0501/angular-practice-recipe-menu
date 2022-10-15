@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col-xs-12">
     <!-- 不同名稱來代表不同component的東西 recipeEl=recipe item裡的 recipe-->
-    <app-recipe-item  (recipeSelected)="onRecipeSelecred(recipeEl)"  [recipe]="recipeEl" *ngFor="let recipeEl of recipes"></app-recipe-item>
+    <app-recipe-item  [recipe]="recipeEl" *ngFor="let recipeEl of recipes"></app-recipe-item>
   </div>
 </div>
 
