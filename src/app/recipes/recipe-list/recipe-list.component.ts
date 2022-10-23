@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from './../recipe.service';
 import { debugOutputAstAsTypeScript } from '@angular/compiler';
@@ -14,13 +15,18 @@ import { Router } from '@angular/router';
 export class RecipeListComponent implements OnInit {
 //  @Output() recipeWasSelected = new EventEmitter<Recipe>();
   recipes: Recipe[];
-
+  subscription:Subscription;
   constructor(private recipeService:RecipeService,
               private router: Router,
               private route: ActivatedRoute
               ) { }
 
   ngOnInit() {
+   this.subscription =  this.recipeService.recipesChanged
+      .subscribe(
+        (recipes:Recipe[]) => {
+        this.recipes = recipes;
+      });
     this.recipes = this.recipeService.getRecipes();
   }
   // onRecipeSelecred(recipe:Recipe){
@@ -28,6 +34,11 @@ export class RecipeListComponent implements OnInit {
   // }
   onNewRecipe(){
     this.router.navigate(['new'],{relativeTo: this.route});
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
   }
 
 }
